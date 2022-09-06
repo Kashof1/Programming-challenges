@@ -23,10 +23,10 @@ def minutes_to_walkcalc(miles):
 def run():
     input_rods = input()
     meters = meterscalc(input_rods)
-    furlong = furlong(input_rods)
-    miles = miles(meters)
-    feet = feet(meters)
-    time = minutes_to_walk(miles)
+    furlong = furlongcalc(input_rods)
+    miles = milescalc(meters)
+    feet = feetcalc(meters)
+    time = minutes_to_walkcalc(miles)
 
     print ('Conversions')
     print (f'Meters = {meters}')
