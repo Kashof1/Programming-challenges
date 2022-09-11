@@ -10,8 +10,7 @@ def userinput():
                 break
             else:
                 print ('You must enter a number and it must be greater than 0. Please try again')
-    print (f'Your input is {input_rods} rods')
-    print('')
+    print (f'Your input is {input_rods} rods \n')
     return input_rods
 
 def meterscalc(rods):
