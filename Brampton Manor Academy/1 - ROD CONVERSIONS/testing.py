@@ -19,3 +19,7 @@ class MyFirstTests(unittest.TestCase):
 
     def test_minutes_to_walkcalc(self):
         self.assertEqual(minutes_to_walkcalc(0.03125007767159208), 0.6048402129985564)
+    
+
+if __name__ == '__main__':
+    unittest.main()

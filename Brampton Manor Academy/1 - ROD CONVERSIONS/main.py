@@ -1,5 +1,15 @@
-def input():
-    input_rods = float(input('Input rods:'))
+def userinput():
+    while True:
+        input_rods = input('Enter the number of rods that you want to convert')
+        try:
+            input_rods = float(input_rods)
+        except:
+            pass
+        else:
+            if input_rods>=0:
+                break
+            else:
+                print ('You must enter a number and it must be greater than 0. Please try again')
     print (f'Your input is {input_rods} rods')
     print('')
     return input_rods
@@ -21,7 +31,7 @@ def minutes_to_walkcalc(miles):
     return miles/avg_walking_speed
 
 def run():
-    input_rods = input()
+    input_rods = userinput()
     meters = meterscalc(input_rods)
     furlong = furlongcalc(input_rods)
     miles = milescalc(meters)
@@ -35,3 +45,4 @@ def run():
     print (f'Furlongs = {furlong}')
 
 
+run()
