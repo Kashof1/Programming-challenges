@@ -127,3 +127,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+Brampton Manor Academy/.DS_Store
+.gitignore
