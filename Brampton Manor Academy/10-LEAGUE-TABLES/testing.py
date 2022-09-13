@@ -32,6 +32,7 @@ class testingLeagueTable(unittest.TestCase):
 
         csv_file = Path("one_row.csv")
         self.assertListEqual([["test", '10']], read_csv(csv_file))
+    
         
 if __name__ == '__main__':
     unittest.main()
