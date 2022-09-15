@@ -33,21 +33,34 @@ def windecider(row):
     else:
         return 'Draw'
 
+def drawadder(currentrow, leaguetable): # work in progress
+    team_1 = currentrow[1]
+    team_2  = currentrow[2]
+    for leaguetablerow in leaguetable:
+        if leaguetablerow[0] == team_1:
+            leaguetablerow[1] += 1 
+        elif leaguetablerow[0] == team_2:
+            leaguetablerow[1] += 1
 
-def goaltablemaker(teamlist, filecontents):
-    goaltable = []
+
+
+def leaguetablemaker(teamlist, filecontents):
+    header = ['Team Name', 'Wins', 'Draws', 'Losses', 'Goal Difference', 'Total Points']
+    leaguetable = []
     for currentitem in teamlist:
-        goaltable.append([currentitem, 0, 0])
+        leaguetable.append([currentitem,0,0,0,0,0])
     for currentrow in filecontents:
         winner = windecider(currentrow)
         if winner == "Draw":
             team_1 = currentrow[1]
             team_2  = currentrow[2]
-            for goaltablerow in goaltable:
-                if goaltablerow[0] == team_1:
-                    goaltablerow[1] += 1 
-                elif goaltablerow[0] == team_2:
-                    goaltablerow[1] += 1
+            for leaguetablerow in leaguetable:
+                if leaguetablerow[0] == team_1:
+                    leaguetablerow[1] += 1 
+                elif leaguetablerow[0] == team_2:
+                    leaguetablerow[1] += 1
+
+
 
 def run():
     filestate = check_file_exists(csv_file)
