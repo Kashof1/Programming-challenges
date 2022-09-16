@@ -25,40 +25,57 @@ def teamlistmaker(csv_contents):
 
     return teamlist
 
-def windecider(row):
-    if row[5] == "H":
-        return row[1]
-    elif row[5] == "A":
-        return row[2]
-    else:
-        return 'Draw'
 
-def drawadder(currentrow, leaguetable): # work in progress
+
+def drawadder(currentrow, leaguetable): 
     team_1 = currentrow[1]
     team_2  = currentrow[2]
     for leaguetablerow in leaguetable:
         if leaguetablerow[0] == team_1:
-            leaguetablerow[1] += 1 
+            leaguetablerow[2] += 1 
         elif leaguetablerow[0] == team_2:
-            leaguetablerow[1] += 1
+            leaguetablerow[2] += 1
+    return leaguetable
+
+def winAndLossAdder(winningTeamName, losingTeamName, leaguetable):
+    for currentIndex in range (0, len(leaguetable)):
+        if leaguetable[currentIndex][0] == winningTeamName:
+            leaguetable[currentIndex][1] += 1
+        elif leaguetable[currentIndex][0] == losingTeamName:
+            leaguetable[currentIndex][3] += 1
+    return leaguetable
+
+def leagueTable_WinDrawLoss_Function(filecontents, leaguetable):
+    for currentrow in filecontents:
+        winner = currentrow[5]
+        if winner == "D":
+            leaguetable = drawadder(currentrow, leaguetable)
+        elif winner == "H":
+            leaguetable = winAndLossAdder(currentrow[1], currentrow[2], leaguetable)
+        elif winner == "A":
+            leaguetable = winAndLossAdder(currentrow[2], currentrow[1], leaguetable)
+    return leaguetable
+
+def totalPointsCalculator(leaguetable):
+    for currentIndex in range (0, len(leaguetable)):
+        calculatedPoints = 0
+        winPoints = (leaguetable[currentIndex][1]) * 3
+        drawPoints = (leaguetable[currentIndex][2]) * 1
+        calculatedPoints = winPoints + drawPoints
+        leaguetable[currentIndex][5] = calculatedPoints
+    return leaguetable
 
 
 
 def leaguetablemaker(teamlist, filecontents):
     header = ['Team Name', 'Wins', 'Draws', 'Losses', 'Goal Difference', 'Total Points']
     leaguetable = []
+    leaguetable.append(header)
     for currentitem in teamlist:
         leaguetable.append([currentitem,0,0,0,0,0])
-    for currentrow in filecontents:
-        winner = windecider(currentrow)
-        if winner == "Draw":
-            team_1 = currentrow[1]
-            team_2  = currentrow[2]
-            for leaguetablerow in leaguetable:
-                if leaguetablerow[0] == team_1:
-                    leaguetablerow[1] += 1 
-                elif leaguetablerow[0] == team_2:
-                    leaguetablerow[1] += 1
+    leaguetable_WLD = leagueTable_WinDrawLoss_Function(filecontents, leaguetable) #leaguetable_WLD is the leaguetable with the win, loss and draw data added
+    leaguetable_withPoints = totalPointsCalculator(leaguetable_WLD)
+    return leaguetable_withPoints
 
 
 
@@ -67,7 +84,8 @@ def run():
     if filestate == True:
         filecontents = read_csv(csv_file)
         teamlist = teamlistmaker(filecontents)
-        print (teamlist)
+        leaguetable = leaguetablemaker(teamlist, filecontents)
+        print (leaguetable)
     else:
         print ('File not found. Code terminating')
 
