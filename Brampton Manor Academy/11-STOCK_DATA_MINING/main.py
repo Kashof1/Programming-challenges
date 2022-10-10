@@ -2,7 +2,6 @@ from calendar import month
 from concurrent.futures import process
 import csv
 from pathlib import Path
-from matplotlib import test
 csv_path = Path('AAPL.csv')
 
 def check_file_exists(path):
@@ -30,22 +29,27 @@ def data_splitter(csv_array):
             processed_month_list.append(current_year_month)
         if current_year_month == ((currentrow[0])[:-3]): #(currentrow[0])[:-3] returns the year and month of the current row, and strips off the day at the end
             adj_close = float(currentrow[5]) #test float and multiplying
-            print (adj_close)
             volume = float(currentrow[6])
-            print (volume)
             total_sale = adj_close * volume
-            (monthly_dictionary[current_year_month][0]).append(adj_close)
-            (monthly_dictionary[current_year_month][1]).append(volume)
-            (monthly_dictionary[current_year_month][2]).append(total_sale)
+            (monthly_dictionary[current_year_month][0]) = (adj_close)
+            (monthly_dictionary[current_year_month][1]) = (volume)
+            (monthly_dictionary[current_year_month][2]) = (total_sale)
 
-#need to write code to calcualte the average for each month and somehow store it (probably best to store it as an integer with the month key in the dictionary, inside the list for each key)
-
-    print (processed_month_list)
     return monthly_dictionary
+
+def sort(monthly_dictionary):
+    sorteddictionary = list(sorted(monthly_dictionary.items(), key = lambda x:x[1][2]))
+    print ('The worst 6 months are:')
+    for x in range (6):
+        print (sorteddictionary[x])
+    sorteddictionary = sorteddictionary[::-1]
+    print ('The worst 6 months are:')
+    for y in range (6):
+        print (sorteddictionary[y])
 
 
 
 if __name__ == '__main__':
     csv_array = read_csv(csv_path)
-    testdictionary = data_splitter(csv_array)
-    print (testdictionary)
+    monthly_dictionary = data_splitter(csv_array)
+    sort(monthly_dictionary)
